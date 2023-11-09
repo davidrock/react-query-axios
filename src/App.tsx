@@ -6,17 +6,21 @@ interface Repository {
 }
 
 export function App() {
-	const { data } = useFetch<Repository[]>('https://api.github.com/users/diego3g/repos');
+	const { data, isFetching } = useFetch<Repository[]>('users/diego3g/repos');
 
 	return (
 		<>
 			<ul>
-				{data?.map((item) => (
-					<li key={item.full_name}>
-						<strong>{item.full_name}</strong>
-						<p>{item.description}</p>
-					</li>
-				))}
+				{isFetching ? (
+					<p>Loading...</p>
+				) : (
+					data?.map((item) => (
+						<li key={item.full_name}>
+							<strong>{item.full_name}</strong>
+							<p>{item.description}</p>
+						</li>
+					))
+				)}
 			</ul>
 		</>
 	);
